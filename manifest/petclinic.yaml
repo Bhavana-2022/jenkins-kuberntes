@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spc
+  labels:
+    app: testspc
+spec:
+  minReadySeconds: 3
+  replicas: 3
+  selector:
+    matchLabels:
+      spc: jenkins
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50
+      maxUnavailable: 1
+  template:
+    metadata:
+      name: spc
+      labels:
+        spc: jenkins
+    spec:
+      containers:
+        - name: endtoendjenkins
+          image: mangarathi/jenkinsete:9
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    spc: jenkins
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 8080
+      nodePort: 30000
+
+  
+
+            
