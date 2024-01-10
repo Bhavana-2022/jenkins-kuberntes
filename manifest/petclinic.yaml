@@ -5,6 +5,8 @@ metadata:
   name: spc
   labels:
     app: testspc
+    app.kubernetes.io/instance: spc
+  namespace: default    
 spec:
   minReadySeconds: 3
   replicas: 3
@@ -34,6 +36,9 @@ kind: Service
 metadata:
   labels:
     spc: jenkins
+    app.kubernetes.io/instance: spc
+  namespace: default
+  
 spec:
   type: NodePort
   ports:
